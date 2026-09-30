@@ -11,12 +11,14 @@
     "test:watch": "vitest",
     "lint": "eslint src tests",
     "migrate": "node-pg-migrate up",
-    "migrate-down": "node-pg-migrate down"
+    "migrate-down": "node-pg-migrate down",
+    "seed": "node scripts/seed.js"
   },
   "engines": {
     "node": ">=24 <25"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^5.0.0",
