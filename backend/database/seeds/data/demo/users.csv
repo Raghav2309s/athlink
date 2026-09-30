@@ -1,0 +1,8 @@
+email,role,display_name
+player1@athlink.demo,PLAYER,Arjun Patel
+player2@athlink.demo,PLAYER,Rahul Shah
+player3@athlink.demo,PLAYER,Dev Mehta
+coach1@athlink.demo,COACH,Vikram Joshi
+coach2@athlink.demo,COACH,Amit Desai
+org1@athlink.demo,ORGANIZATION,Vadodara Sports Club
+admin@athlink.demo,ADMIN,ATHLINK Admin
