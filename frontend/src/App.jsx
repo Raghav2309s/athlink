@@ -1,26 +1,11 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-
-const API_BASE = 'http://localhost:4000/api/v1'
-
-async function apiRequest(path, options = {}) {
-  const response = await fetch(`${API_BASE}${path}`, {
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-      ...(options.headers || {}),
-    },
-    ...options,
-  })
-
-  const result = await response.json()
-
-  if (!response.ok) {
-    throw new Error(result?.error?.message || 'Something went wrong')
-  }
-
-  return result.data
-}
+import { apiRequest } from './api/client'
+import Events from './pages/Events'
+import EventDetails from './pages/EventDetails'
+import Discover from './pages/Discover'
+import CoachProfile from './pages/CoachProfile'
+import Training from './pages/Training'
 
 function Login({ onLogin }) {
   const [email, setEmail] = useState('')
@@ -162,7 +147,7 @@ function Login({ onLogin }) {
   )
 }
 
-function Dashboard({ user, onLogout }) {
+function DashboardHome({ user }) {
   const [profile, setProfile] = useState(null)
   const [coaches, setCoaches] = useState([])
   const [events, setEvents] = useState([])
@@ -196,7 +181,257 @@ function Dashboard({ user, onLogout }) {
     profile?.name ||
     user.email.split('@')[0]
 
-  const roleLabel = user.role?.toLowerCase()
+  return (
+    <div className="dashboard-content">
+      <section className="welcome-section">
+        <div>
+          <p className="eyebrow dark">YOUR SPORTS JOURNEY</p>
+
+          <h1>Good evening, {displayName} 👋</h1>
+
+          <p>
+            Here's what's happening in your sports community.
+          </p>
+        </div>
+      </section>
+
+      {error && (
+        <div className="dashboard-error">
+          {error}
+        </div>
+      )}
+
+      <section className="stats-grid">
+        <div className="stat-card">
+          <div className="stat-icon green">⚽</div>
+
+          <div>
+            <span>Your role</span>
+            <strong>{user.role}</strong>
+          </div>
+        </div>
+
+        <div className="stat-card">
+          <div className="stat-icon blue">👥</div>
+
+          <div>
+            <span>Coaches nearby</span>
+            <strong>{loading ? '—' : coaches.length}</strong>
+          </div>
+        </div>
+
+        <div className="stat-card">
+          <div className="stat-icon orange">🏆</div>
+
+          <div>
+            <span>Upcoming events</span>
+            <strong>{loading ? '—' : events.length}</strong>
+          </div>
+        </div>
+      </section>
+
+      <div className="dashboard-columns">
+        <section className="content-section">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow dark">DISCOVER</p>
+              <h2>Nearby coaches</h2>
+            </div>
+          </div>
+
+          {loading ? (
+            <div className="empty-card">
+              Loading coaches...
+            </div>
+          ) : coaches.length === 0 ? (
+            <div className="empty-card">
+              <strong>No coaches found yet.</strong>
+              <span>
+                Coach profiles will appear here when available.
+              </span>
+            </div>
+          ) : (
+            <div className="coach-grid">
+              {coaches.slice(0, 3).map((coach) => (
+                <article
+                  className="coach-card"
+                  key={coach.user_id}
+                >
+                  <div className="coach-top">
+                    <div className="coach-avatar">
+                      {coach.full_name?.charAt(0) || 'C'}
+                    </div>
+
+                    {coach.is_verified && (
+                      <span className="verified">✓</span>
+                    )}
+                  </div>
+
+                  <h3>{coach.full_name}</h3>
+
+                  <p className="coach-sport">
+                    {coach.sport_name || 'Sports Coach'}
+                  </p>
+
+                  <p className="coach-location">
+                    📍 {coach.locality_name || 'Vadodara'}
+                  </p>
+
+                  <button className="outline-button">
+                    View profile
+                  </button>
+                </article>
+              ))}
+            </div>
+          )}
+        </section>
+
+        <section className="content-section events-section">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow dark">OPPORTUNITIES</p>
+              <h2>Upcoming events</h2>
+            </div>
+          </div>
+
+          {loading ? (
+            <div className="empty-card">
+              Loading events...
+            </div>
+          ) : events.length === 0 ? (
+            <div className="empty-card">
+              <strong>No upcoming events.</strong>
+              <span>
+                New sports opportunities will appear here.
+              </span>
+            </div>
+          ) : (
+            <div className="event-list">
+              {events.slice(0, 3).map((event) => (
+                <article className="event-card" key={event.id}>
+                  <div className="event-date">
+                    <strong>
+                      {new Date(event.starts_at).getDate()}
+                    </strong>
+
+                    <span>
+                      {new Date(event.starts_at).toLocaleString(
+                        'en-US',
+                        { month: 'short' },
+                      )}
+                    </span>
+                  </div>
+
+                  <div className="event-details">
+                    <span className="event-category">
+                      {event.category}
+                    </span>
+
+                    <h3>{event.title}</h3>
+
+                    <p>
+                      🕐{' '}
+                      {new Date(event.starts_at).toLocaleTimeString(
+                        'en-IN',
+                        {
+                          hour: 'numeric',
+                          minute: '2-digit',
+                        },
+                      )}
+                      {'  '}•{'  '}
+                      📍 {event.locality_name || 'Vadodara'}
+                    </p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
+        </section>
+      </div>
+    </div>
+  )
+}
+
+function App() {
+  const [user, setUser] = useState(null)
+  const [activePage, setActivePage] = useState('dashboard')
+  const [selectedEvent, setSelectedEvent] = useState(null)
+  const [selectedCoach, setSelectedCoach] = useState(null)
+
+  function handleLogout() {
+    setUser(null)
+    setActivePage('dashboard')
+    setSelectedEvent(null)
+  }
+
+  function openEvent(event) {
+    setSelectedEvent(event)
+    setActivePage('event-details')
+  }
+  function openCoach(coach) {
+    setSelectedCoach(coach)
+    setActivePage('coach-profile')
+  }
+
+function renderPage() {
+  if (activePage === 'discover') {
+    return (
+      <Discover
+        onOpenCoach={openCoach}
+      />
+    )
+  }
+
+  if (
+    activePage === 'coach-profile' &&
+    selectedCoach
+  ) {
+    return (
+      <CoachProfile
+        coach={selectedCoach}
+        user={user}
+        onBack={() => {
+          setSelectedCoach(null)
+          setActivePage('discover')
+        }}
+      />
+    )
+  }
+
+  if (activePage === 'events') {
+    return (
+      <Events
+        onOpenEvent={openEvent}
+      />
+    )
+  }
+
+  if (
+    activePage === 'event-details' &&
+    selectedEvent
+  ) {
+    return (
+      <EventDetails
+        event={selectedEvent}
+        user={user}
+        onBack={() => {
+          setSelectedEvent(null)
+          setActivePage('events')
+        }}
+      />
+    )
+  }
+
+  if (activePage === 'training') {
+    return <Training user={user} />
+  }
+
+  return <DashboardHome user={user} />
+}
+
+  if (!user) {
+    return <Login onLogin={setUser} />
+  }
 
   return (
     <div className="app-shell">
@@ -207,27 +442,61 @@ function Dashboard({ user, onLogout }) {
         </div>
 
         <nav className="sidebar-nav">
-          <button className="nav-item active">
+          <button
+            className={`nav-item ${
+              activePage === 'dashboard' ? 'active' : ''
+            }`}
+            onClick={() => {
+              setActivePage('dashboard')
+              setSelectedEvent(null)
+            }}
+          >
             <span>⌂</span>
             Dashboard
           </button>
 
-          <button className="nav-item">
+          <button
+            className={`nav-item ${
+              activePage === 'discover' ? 'active' : ''
+            }`}
+            onClick={() => setActivePage('discover')}
+          >
             <span>⌕</span>
             Discover
           </button>
 
-          <button className="nav-item">
+          <button
+            className={`nav-item ${
+              activePage === 'events' ||
+              activePage === 'event-details'
+                ? 'active'
+                : ''
+            }`}
+            onClick={() => {
+              setActivePage('events')
+              setSelectedEvent(null)
+            }}
+          >
             <span>◫</span>
             Events
           </button>
 
-          <button className="nav-item">
+          <button
+            className={`nav-item ${
+              activePage === 'training' ? 'active' : ''
+            }`}
+            onClick={() => setActivePage('training')}
+          >
             <span>⇄</span>
             Training
           </button>
 
-          <button className="nav-item">
+          <button
+            className={`nav-item ${
+              activePage === 'profile' ? 'active' : ''
+            }`}
+            onClick={() => setActivePage('profile')}
+          >
             <span>◎</span>
             Profile
           </button>
@@ -239,7 +508,10 @@ function Dashboard({ user, onLogout }) {
             Settings
           </button>
 
-          <button className="nav-item logout" onClick={onLogout}>
+          <button
+            className="nav-item logout"
+            onClick={handleLogout}
+          >
             <span>↪</span>
             Logout
           </button>
@@ -249,208 +521,38 @@ function Dashboard({ user, onLogout }) {
       <main className="dashboard">
         <header className="topbar">
           <div>
-            <span className="topbar-mobile-brand">ATHLINK</span>
+            <span className="topbar-mobile-brand">
+              ATHLINK
+            </span>
           </div>
 
           <div className="topbar-user">
-            <button className="notification-button">♢</button>
+            <button className="notification-button">
+              ♢
+            </button>
 
             <div className="user-avatar">
-              {displayName.charAt(0).toUpperCase()}
+              {(
+                user.email?.charAt(0) || 'A'
+              ).toUpperCase()}
             </div>
 
             <div className="user-info">
-              <strong>{displayName}</strong>
-              <span>{roleLabel}</span>
+              <strong>
+                {user.email?.split('@')[0]}
+              </strong>
+
+              <span>
+                {user.role?.toLowerCase()}
+              </span>
             </div>
           </div>
         </header>
 
-        <div className="dashboard-content">
-          <section className="welcome-section">
-            <div>
-              <p className="eyebrow dark">YOUR SPORTS JOURNEY</p>
-              <h1>Good evening, {displayName} 👋</h1>
-              <p>
-                Here's what's happening in your sports community.
-              </p>
-            </div>
-          </section>
-
-          {error && (
-            <div className="dashboard-error">
-              {error}
-            </div>
-          )}
-
-          <section className="stats-grid">
-            <div className="stat-card">
-              <div className="stat-icon green">⚽</div>
-              <div>
-                <span>Your role</span>
-                <strong>{user.role}</strong>
-              </div>
-            </div>
-
-            <div className="stat-card">
-              <div className="stat-icon blue">👥</div>
-              <div>
-                <span>Coaches nearby</span>
-                <strong>{loading ? '—' : coaches.length}</strong>
-              </div>
-            </div>
-
-            <div className="stat-card">
-              <div className="stat-icon orange">🏆</div>
-              <div>
-                <span>Upcoming events</span>
-                <strong>{loading ? '—' : events.length}</strong>
-              </div>
-            </div>
-          </section>
-
-          <div className="dashboard-columns">
-            <section className="content-section">
-              <div className="section-heading">
-                <div>
-                  <p className="eyebrow dark">DISCOVER</p>
-                  <h2>Nearby coaches</h2>
-                </div>
-
-                <button className="text-button">
-                  View all →
-                </button>
-              </div>
-
-              {loading ? (
-                <div className="empty-card">
-                  Loading coaches...
-                </div>
-              ) : coaches.length === 0 ? (
-                <div className="empty-card">
-                  <strong>No coaches found yet.</strong>
-                  <span>
-                    Coach profiles will appear here when available.
-                  </span>
-                </div>
-              ) : (
-                <div className="coach-grid">
-                  {coaches.slice(0, 3).map((coach) => (
-                    <article className="coach-card" key={coach.user_id}>
-                      <div className="coach-top">
-                        <div className="coach-avatar">
-                          {coach.full_name?.charAt(0) || 'C'}
-                        </div>
-
-                        {coach.is_verified && (
-                          <span className="verified">✓</span>
-                        )}
-                      </div>
-
-                      <h3>{coach.full_name}</h3>
-
-                      <p className="coach-sport">
-                        {coach.sport_name || 'Sports Coach'}
-                      </p>
-
-                      <p className="coach-location">
-                        📍 {coach.locality_name || 'Vadodara'}
-                      </p>
-
-                      <button className="outline-button">
-                        View profile
-                      </button>
-                    </article>
-                  ))}
-                </div>
-              )}
-            </section>
-
-            <section className="content-section events-section">
-              <div className="section-heading">
-                <div>
-                  <p className="eyebrow dark">OPPORTUNITIES</p>
-                  <h2>Upcoming events</h2>
-                </div>
-
-                <button className="text-button">
-                  View all →
-                </button>
-              </div>
-
-              {loading ? (
-                <div className="empty-card">
-                  Loading events...
-                </div>
-              ) : events.length === 0 ? (
-                <div className="empty-card">
-                  <strong>No upcoming events.</strong>
-                  <span>
-                    New sports opportunities will appear here.
-                  </span>
-                </div>
-              ) : (
-                <div className="event-list">
-                  {events.slice(0, 3).map((event) => (
-                    <article className="event-card" key={event.id}>
-                      <div className="event-date">
-                        <strong>
-                          {new Date(event.starts_at).getDate()}
-                        </strong>
-                        <span>
-                          {new Date(event.starts_at).toLocaleString(
-                            'en-US',
-                            { month: 'short' },
-                          )}
-                        </span>
-                      </div>
-
-                      <div className="event-details">
-                        <span className="event-category">
-                          {event.category}
-                        </span>
-
-                        <h3>{event.title}</h3>
-
-                        <p>
-                          🕐{' '}
-                          {new Date(event.starts_at).toLocaleTimeString(
-                            'en-IN',
-                            {
-                              hour: 'numeric',
-                              minute: '2-digit',
-                            },
-                          )}
-                          {'  '}•{'  '}
-                          📍 {event.locality_name || 'Vadodara'}
-                        </p>
-                      </div>
-
-                      <button className="event-arrow">→</button>
-                    </article>
-                  ))}
-                </div>
-              )}
-            </section>
-          </div>
-        </div>
+        {renderPage()}
       </main>
     </div>
   )
-}
-
-function App() {
-  const [user, setUser] = useState(null)
-
-  function handleLogout() {
-    setUser(null)
-  }
-
-  if (!user) {
-    return <Login onLogin={setUser} />
-  }
-
-  return <Dashboard user={user} onLogout={handleLogout} />
 }
 
 export default App

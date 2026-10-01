@@ -963,3 +963,979 @@ button {
     padding: 0 15px;
   }
 }
+/* =========================================================
+   EVENTS PAGE
+   ========================================================= */
+
+.page-content {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 42px;
+}
+
+.page-heading {
+  margin-bottom: 30px;
+}
+
+.page-heading h1 {
+  margin: 0 0 10px;
+  color: #101d30;
+  font-size: 42px;
+  line-height: 1.1;
+  letter-spacing: -1.6px;
+  font-weight: 800;
+}
+
+.page-heading > div > p:last-child {
+  margin: 0;
+  color: #788598;
+  font-size: 15px;
+}
+
+.event-filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 25px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.filter-button {
+  flex: 0 0 auto;
+  height: 38px;
+  padding: 0 16px;
+  border: 1px solid #dfe4ea;
+  border-radius: 9px;
+  background: white;
+  color: #647184;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.filter-button:hover,
+.filter-button.active {
+  border-color: #16895b;
+  background: #16895b;
+  color: white;
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.large-event-card {
+  overflow: hidden;
+  border: 1px solid #e4e8ed;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 5px 20px rgba(20, 36, 54, 0.04);
+  transition: 0.2s ease;
+}
+
+.large-event-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(20, 36, 54, 0.08);
+}
+
+.event-card-banner {
+  min-height: 90px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 18px;
+  background:
+    radial-gradient(
+      circle at 80% 30%,
+      rgba(57, 217, 138, 0.18),
+      transparent 30%
+    ),
+    #0b1b2d;
+}
+
+.sport-pill,
+.category-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 25px;
+  padding: 0 9px;
+  border-radius: 6px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+}
+
+.sport-pill {
+  background: rgba(57, 217, 138, 0.15);
+  color: #43dc91;
+}
+
+.category-pill {
+  margin-left: 7px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #c7d1dc;
+}
+
+.large-event-body {
+  display: flex;
+  gap: 17px;
+  padding: 22px 20px 17px;
+}
+
+.large-event-date {
+  width: 58px;
+  height: 63px;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 11px;
+  background: #edf9f3;
+  color: #16895b;
+}
+
+.large-event-date strong {
+  font-size: 23px;
+  line-height: 1;
+}
+
+.large-event-date span {
+  margin-top: 4px;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.large-event-info {
+  min-width: 0;
+}
+
+.large-event-info h2 {
+  overflow: hidden;
+  margin: 0 0 9px;
+  color: #172438;
+  font-size: 18px;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.large-event-info > p {
+  margin: 5px 0;
+  color: #7d8998;
+  font-size: 11px;
+}
+
+.event-capacity {
+  margin-top: 13px;
+}
+
+.event-capacity > span {
+  color: #697688;
+  font-size: 10px;
+}
+
+.capacity-bar {
+  width: 150px;
+  height: 5px;
+  margin-top: 6px;
+  overflow: hidden;
+  border-radius: 5px;
+  background: #e8edf1;
+}
+
+.capacity-bar div {
+  height: 100%;
+  border-radius: inherit;
+  background: #39b97c;
+}
+
+.large-event-footer {
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 20px;
+  border-top: 1px solid #edf0f3;
+}
+
+.large-event-footer > span {
+  overflow: hidden;
+  color: #8a94a2;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.primary-small-button {
+  height: 34px;
+  padding: 0 13px;
+  border: 0;
+  border-radius: 8px;
+  background: #0b1b2d;
+  color: white;
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.primary-small-button:hover {
+  background: #16895b;
+}
+
+.empty-card.large {
+  min-height: 260px;
+}
+
+/* =========================================================
+   EVENT DETAILS
+   ========================================================= */
+
+.back-button {
+  margin-bottom: 22px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #16895b;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.event-detail-hero {
+  margin-bottom: 25px;
+  padding: 42px;
+  border-radius: 18px;
+  background:
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(57, 217, 138, 0.2),
+      transparent 30%
+    ),
+    #0b1b2d;
+  color: white;
+}
+
+.event-detail-hero h1 {
+  margin: 18px 0 8px;
+  color: white;
+  font-size: clamp(30px, 4vw, 48px);
+  letter-spacing: -1.8px;
+  font-weight: 800;
+}
+
+.event-organizer {
+  margin: 0;
+  color: #aab9c8;
+  font-size: 13px;
+}
+
+.event-organizer strong {
+  color: #43dc91;
+}
+
+.event-detail-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 22px;
+  align-items: start;
+}
+
+.event-detail-main {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.detail-card {
+  padding: 26px;
+  border: 1px solid #e4e8ed;
+  border-radius: 15px;
+  background: white;
+}
+
+.detail-card h2 {
+  margin: 0 0 21px;
+  color: #172438;
+  font-size: 19px;
+  font-weight: 800;
+}
+
+.detail-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.detail-info-grid div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.detail-info-grid span {
+  color: #9aa4b1;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.detail-info-grid strong {
+  color: #26364b;
+  font-size: 13px;
+}
+
+.event-description {
+  margin: 0;
+  color: #697688;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.event-registration-card {
+  position: sticky;
+  top: 100px;
+  padding: 25px;
+  border: 1px solid #dce9e3;
+  border-radius: 15px;
+  background: white;
+  box-shadow: 0 8px 30px rgba(20, 36, 54, 0.05);
+}
+
+.event-registration-card h2 {
+  margin: 5px 0 8px;
+  color: #172438;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.event-registration-card > p {
+  margin: 0 0 20px;
+  color: #7d8998;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.register-button,
+.registered-button {
+  width: 100%;
+  height: 49px;
+  border: 0;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.register-button {
+  background: #16895b;
+  color: white;
+}
+
+.register-button:hover:not(:disabled) {
+  background: #0f754c;
+}
+
+.register-button:disabled {
+  opacity: 0.6;
+}
+
+.registered-button {
+  background: #e4f8ed;
+  color: #16895b;
+}
+
+.success-message {
+  margin-bottom: 13px;
+  padding: 11px;
+  border-radius: 8px;
+  background: #edf9f3;
+  color: #16895b;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.role-message {
+  padding: 12px;
+  border-radius: 9px;
+  background: #f5f7f9;
+  color: #6e7888;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.registration-note {
+  display: flex;
+  gap: 7px;
+  margin-top: 18px;
+  color: #929ca9;
+  font-size: 10px;
+}
+
+/* =========================================================
+   RESPONSIVE EVENT PAGES
+   ========================================================= */
+
+@media (max-width: 1000px) {
+  .events-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .event-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .event-registration-card {
+    position: static;
+  }
+}
+
+@media (max-width: 850px) {
+  .page-content {
+    padding: 28px 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .page-content {
+    padding: 24px 15px;
+  }
+
+  .page-heading h1 {
+    font-size: 34px;
+  }
+
+  .event-detail-hero {
+    padding: 28px 22px;
+  }
+
+  .event-detail-hero h1 {
+    font-size: 30px;
+  }
+
+  .detail-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .large-event-body {
+    padding: 18px 15px;
+  }
+
+  .large-event-footer {
+    padding: 10px 15px;
+  }
+}
+/* =========================================================
+   DISCOVER
+   ========================================================= */
+
+.discover-toolbar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.discover-search {
+  min-width: 280px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  border: 1px solid #dfe4ea;
+  border-radius: 10px;
+  background: white;
+}
+
+.discover-search span {
+  color: #8a95a3;
+  font-size: 20px;
+}
+
+.discover-search input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #253246;
+  font-size: 13px;
+}
+
+.discover-filter {
+  height: 44px;
+  padding: 0 15px;
+  border: 1px solid #dfe4ea;
+  border-radius: 10px;
+  background: white;
+  color: #526073;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.discover-filter:hover {
+  border-color: #39b97c;
+  color: #16895b;
+}
+
+.discover-result-header {
+  margin-bottom: 13px;
+  color: #8a94a2;
+  font-size: 11px;
+}
+
+.discover-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 17px;
+}
+
+.discover-coach-card {
+  position: relative;
+  padding: 22px;
+  border: 1px solid #e4e8ed;
+  border-radius: 15px;
+  background: white;
+  box-shadow: 0 5px 20px rgba(20, 36, 54, 0.035);
+  transition: 0.2s ease;
+}
+
+.discover-coach-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(20, 36, 54, 0.07);
+}
+
+.discover-coach-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.discover-avatar {
+  width: 62px;
+  height: 62px;
+  display: grid;
+  place-items: center;
+  border-radius: 17px;
+  background: #e3f8ec;
+  color: #16895b;
+  font-size: 22px;
+  font-weight: 850;
+}
+
+.verified-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 25px;
+  padding: 0 8px;
+  border-radius: 6px;
+  background: #e5f8ed;
+  color: #16895b;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.discover-coach-card h2 {
+  margin: 0 0 6px;
+  color: #172438;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.discover-sport {
+  margin: 0 0 14px;
+  color: #16895b;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.discover-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  color: #8792a1;
+  font-size: 11px;
+}
+
+.discover-rating {
+  margin-top: 13px;
+  color: #bd7a00;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.academy-name {
+  margin: 12px 0 0;
+  color: #7b8796;
+  font-size: 11px;
+}
+
+.discover-profile-button {
+  width: 100%;
+  height: 39px;
+  margin-top: 20px;
+  border: 1px solid #dce3ea;
+  border-radius: 9px;
+  background: white;
+  color: #26364b;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.discover-profile-button:hover {
+  border-color: #39b97c;
+  background: #f3fcf7;
+  color: #16895b;
+}
+
+/* =========================================================
+   COACH PROFILE
+   ========================================================= */
+
+.coach-profile-hero {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin-bottom: 22px;
+  padding: 32px;
+  border-radius: 17px;
+  background:
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(57, 217, 138, 0.18),
+      transparent 30%
+    ),
+    #0b1b2d;
+}
+
+.profile-avatar-large {
+  width: 90px;
+  height: 90px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 24px;
+  background: #dff8ea;
+  color: #16895b;
+  font-size: 34px;
+  font-weight: 850;
+}
+
+.coach-profile-main {
+  min-width: 0;
+}
+
+.profile-name-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.profile-name-row h1 {
+  margin: 0;
+  color: white;
+  font-size: 34px;
+  letter-spacing: -1px;
+  font-weight: 800;
+}
+
+.profile-role {
+  margin: 7px 0;
+  color: #43dc91;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.profile-location {
+  margin: 0;
+  color: #aab9c8;
+  font-size: 12px;
+}
+
+.coach-profile-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 20px;
+  align-items: start;
+}
+
+.coach-profile-grid main {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.profile-stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.profile-stat-row div {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.profile-stat-row span {
+  color: #9aa4b1;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.profile-stat-row strong {
+  color: #26364b;
+  font-size: 13px;
+}
+
+.profile-action-card {
+  position: sticky;
+  top: 100px;
+  padding: 25px;
+  border: 1px solid #dce9e3;
+  border-radius: 15px;
+  background: white;
+  box-shadow: 0 8px 30px rgba(20, 36, 54, 0.05);
+}
+
+.profile-action-card h2 {
+  margin: 5px 0 8px;
+  color: #172438;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.profile-action-card > p {
+  margin: 0 0 20px;
+  color: #7d8998;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+@media (max-width: 1100px) {
+  .discover-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1000px) {
+  .coach-profile-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-action-card {
+    position: static;
+  }
+}
+
+@media (max-width: 700px) {
+  .discover-toolbar {
+    flex-wrap: wrap;
+  }
+
+  .discover-search {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .discover-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .coach-profile-hero {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 25px;
+  }
+
+  .profile-stat-row {
+    grid-template-columns: 1fr;
+  }
+}
+/* =========================================================
+   TRAINING REQUESTS
+   ========================================================= */
+
+.training-list {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  max-width: 950px;
+}
+
+.training-card {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  padding: 20px;
+  border: 1px solid #e4e8ed;
+  border-radius: 15px;
+  background: white;
+  box-shadow: 0 5px 20px rgba(20, 36, 54, 0.035);
+}
+
+.training-avatar {
+  width: 58px;
+  height: 58px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  background: #e3f8ec;
+  color: #16895b;
+  font-size: 20px;
+  font-weight: 850;
+}
+
+.training-main {
+  min-width: 0;
+  flex: 1;
+}
+
+.training-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.training-title-row h2 {
+  margin: 0 0 4px;
+  color: #172438;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.training-title-row p {
+  margin: 0;
+  color: #16895b;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 0 9px;
+  border-radius: 7px;
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 0.6px;
+}
+
+.status-pending {
+  background: #fff5dc;
+  color: #a66b00;
+}
+
+.status-accepted {
+  background: #e4f8ed;
+  color: #16895b;
+}
+
+.status-rejected {
+  background: #fdecec;
+  color: #bd4a4a;
+}
+
+.status-cancelled {
+  background: #f1f3f5;
+  color: #778291;
+}
+
+.training-message {
+  margin: 12px 0 8px !important;
+  color: #667487;
+  font-size: 11px;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.training-meta {
+  display: flex;
+  gap: 14px;
+  color: #98a2ae;
+  font-size: 9px;
+}
+
+.training-actions {
+  display: flex;
+  gap: 7px;
+  flex: 0 0 auto;
+}
+
+.accept-button,
+.reject-button {
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.accept-button {
+  border: 0;
+  background: #16895b;
+  color: white;
+}
+
+.accept-button:hover:not(:disabled) {
+  background: #0f754c;
+}
+
+.reject-button {
+  border: 1px solid #e1caca;
+  background: white;
+  color: #a85151;
+}
+
+.reject-button:hover:not(:disabled) {
+  background: #fff5f5;
+}
+
+.accept-button:disabled,
+.reject-button:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.empty-icon {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 12px;
+  border-radius: 15px;
+  background: #e3f8ec;
+  color: #16895b;
+  font-size: 24px;
+}
+
+@media (max-width: 700px) {
+  .training-card {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .training-main {
+    width: calc(100% - 75px);
+    flex: initial;
+  }
+
+  .training-title-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .training-actions {
+    width: 100%;
+    margin-left: 75px;
+  }
+
+  .training-actions button {
+    flex: 1;
+  }
+}
