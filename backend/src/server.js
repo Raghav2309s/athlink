@@ -7,6 +7,9 @@ const cookieParser = require('cookie-parser');
 
 const { env } = require('./config/env');
 const authRoutes = require('./modules/auth/auth.routes');
+const profileRoutes = require('./modules/profile/profile.routes');
+const discoveryRoutes = require('./modules/discovery/discovery.routes');
+const trainingRoutes = require('./modules/training/training.routes');
 const { errorHandler } = require('./middleware/error');
 
 const app = express();
@@ -33,6 +36,9 @@ app.get('/health', (req, res) => {
 });
 
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/profile', profileRoutes);
+app.use('/api/v1/discovery', discoveryRoutes);
+app.use('/api/v1/training-requests', trainingRoutes);
 
 app.use(errorHandler);
 
@@ -44,3 +50,5 @@ module.exports = {
   app,
   server,
 };
+
+
